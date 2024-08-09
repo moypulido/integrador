@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Interfaces\MELI\tokenRepositoryInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function (tokenRepositoryInterface $tokenRepository) {
+    $token = $tokenRepository->refreshToken(env('MELI_REFRESH_TOKEN'));
+    dd($token);
+    return view('welcome', compact('token'));
 });
