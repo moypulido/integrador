@@ -1,21 +1,7 @@
 <?php
-
+// routes/web.php
 use Illuminate\Support\Facades\Route;
-use App\Interfaces\MELI\tokenRepositoryInterface;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/', function (tokenRepositoryInterface $tokenRepository) {
-    $token = $tokenRepository->refreshToken(env('MELI_REFRESH_TOKEN'));
-    dd($token);
-    return view('welcome', compact('token'));
-});
+Route::get('/', function () {
+    return view('informacion');
+})->name('informacion');
