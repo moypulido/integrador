@@ -36,8 +36,6 @@ class tokenRepository implements tokenRepositoryInterface
             return $lastToken->attributesToArray();
         }
         
-        
-        
         $headers = [
             'accept' => 'application/json',
             'Content-Type' => 'application/x-www-form-urlencoded',
@@ -60,7 +58,7 @@ class tokenRepository implements tokenRepositoryInterface
             $token = Token::create([
                 'access_token' => $token['access_token'],
                 'token_type' => $token['token_type'],
-                'expires_at' => now()->addSeconds($token['expires_in']), // Guardar la fecha y hora de expiración
+                'expires_at' => now()->addSeconds($token['expires_in']),
                 'scope' => $token['scope'],
                 'user_id' => $token['user_id'],
                 'refresh_token' => $token['refresh_token'],

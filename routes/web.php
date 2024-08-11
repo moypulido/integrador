@@ -1,7 +1,6 @@
 <?php
 // routes/web.php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InformacionController;
 
-Route::get('/', function () {
-    return view('informacion');
-})->name('informacion');
+Route::get('/', [InformacionController::class, 'index'])->name('informacion');
