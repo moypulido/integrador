@@ -21,7 +21,7 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav flex-column vh-100">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('informacion') }}">Informacion</a>
+                                    <a class="nav-link" href="{{ route('informacion.index') }}">Informacion</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Features</a>
