@@ -20,4 +20,9 @@ class Token extends Model
     protected $dates = [
         'expires_at',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
