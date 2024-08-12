@@ -2,27 +2,29 @@
 
 namespace App\Repositories\MELI;
 
-use App\Interfaces\MELI\UserRepositoryInterface;
+use App\Interfaces\MELI\MELIUserRepositoryInterface;
 use GuzzleHttp\Exception\RequestException;
+use App\Interfaces\TokenRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client;
 use App\Models\Token;
 
-class userRepository implements UserRepositoryInterface {
-
-    protected $refreshToken;
+class MELIuserRepository implements MELIUserRepositoryInterface {
     protected $client;
+    protected $tokenRepository;
 
-    public function __construct()
-    {
-        $this->refreshToken = Token::latest()->first();
+    public function __construct( TokenRepositoryInterface $tokenRepository ) {
+        $this->tokenRepository = $tokenRepository;
         $this->client = new Client();
     }
 
     public function getUserMe() {
+
+        $refreshToken = $this->tokenRepository->getLastToken();
+        
         $headers = [
-            'Authorization' => 'Bearer ' . $this->refreshToken->access_token,
+            'Authorization' => 'Bearer ' . $refreshToken->access_token,
         ];
 
         try {

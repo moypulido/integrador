@@ -10,4 +10,4 @@ Route::resource('/register', RegisterController::class);
 
 Route::middleware(['auth.redirect'])->group(function () {
     Route::get('/', [InformacionController::class, 'index'])->name('informacion.index');
-});
+});     

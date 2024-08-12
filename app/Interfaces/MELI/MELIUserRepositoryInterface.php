@@ -3,6 +3,6 @@
 // app/Interfaces/MELI/userRepositoryInterface.php
 namespace App\Interfaces\MELI;
 
-interface UserRepositoryInterface {
+interface MELIUserRepositoryInterface {
     public function getUserMe();
 }

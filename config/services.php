@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'mercadolibre' => [
+        'client_id' => env('MELI_CLIENT_ID'),
+        'client_secret' => env('MELI_CLIENT_SECRET'),
+        'redirect_uri' => env('MELI_REDIRECT_URI'),
+    ],
+
 ];

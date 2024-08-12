@@ -3,7 +3,7 @@
 // app/Interfaces/MELI/tokenRepositoryInterface.php
 namespace App\Interfaces\MELI;
 
-interface tokenRepositoryInterface
+interface MELItokenRepositoryInterface
 {
     public function refreshToken($refreshToken);
 }

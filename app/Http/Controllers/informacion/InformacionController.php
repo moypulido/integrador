@@ -3,24 +3,25 @@
 namespace App\Http\Controllers\Informacion;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\MELI\UserRepositoryInterface;
-use App\Interfaces\MELI\tokenRepositoryInterface;
+use App\Interfaces\MELI\MELIUserRepositoryInterface;
+use App\Interfaces\MELI\MELItokenRepositoryInterface;
 
 class InformacionController extends Controller
 {
-    private $userRepository;
-    private $tokenRepository;
+    private $MELIuserRepository;
+    private $MELItokenRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository, tokenRepositoryInterface $tokenRepository)
+    public function __construct(MELIUserRepositoryInterface $MELIuserRepository, MELItokenRepositoryInterface $MELItokenRepository)
     {
-        $this->userRepository = $userRepository;
-        $this->tokenRepository = $tokenRepository;
+        $this->MELIuserRepository = $MELIuserRepository;
+        $this->MELItokenRepository = $MELItokenRepository;
     }
 
     public function index()
-    {
-        $this->tokenRepository->refreshToken(env('MELI_REFRESH_TOKEN'));
-        $user = $this->userRepository->getUserMe();
+    { 
+        $token = $this->MELItokenRepository->refreshToken('TG-66b55c3776dc9d0001c93b21-1756613137');
+        
+        $user = $this->MELIuserRepository->getUserMe();
         return view('informacion', compact('user'));
     }
 }
