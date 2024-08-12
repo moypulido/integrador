@@ -9,5 +9,6 @@ interface UserRepositoryInterface
     public function updateUser($id, array $data);
     public function deleteUser($id);
     public function getAuthenticatedUser();
+    public function getCodeAuthenticatedUser();
     
 }

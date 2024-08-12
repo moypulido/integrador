@@ -5,7 +5,7 @@ namespace App\Interfaces\MELI;
 
 interface MELItokenRepositoryInterface
 {
-    public function refreshToken($refreshToken);
+    public function refreshToken($code);
 }
 
 

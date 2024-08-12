@@ -30,7 +30,7 @@ class MELItokenRepository implements MELItokenRepositoryInterface
         $this->tokenRepository = $tokenRepository;
     }
 
-    public function refreshToken($refreshToken)
+    public function refreshToken($code)
     {
         $lastToken = $this->tokenRepository->getLastToken();
 
@@ -53,7 +53,7 @@ class MELItokenRepository implements MELItokenRepositoryInterface
                 'grant_type' => 'refresh_token',
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
-                'refresh_token' => $refreshToken,
+                'refresh_token' => $code,
             ]
         ];
 
