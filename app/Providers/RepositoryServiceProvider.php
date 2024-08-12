@@ -13,6 +13,9 @@ use App\Repositories\MELI\MELIuserRepository;
 use App\Interfaces\TokenRepositoryInterface;
 use App\Repositories\TokenRepository;
 
+use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
+
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         // DataBase
         $this->app->bind(TokenRepositoryInterface::class, TokenRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**
