@@ -20,9 +20,8 @@ class MELIuserRepository implements MELIUserRepositoryInterface {
     }
 
     public function getUserMe() {
-
         $refreshToken = $this->tokenRepository->getLastToken();
-        
+
         $headers = [
             'Authorization' => 'Bearer ' . $refreshToken->access_token,
         ];
