@@ -56,7 +56,7 @@ class MELItokenRepository implements MELItokenRepositoryInterface
             $response = $this->httpClient->send($request, $options);
             $token = json_decode($response->getBody()->getContents(), true);
 
-            $token = $this->tokenRepository->saveToken([
+            $token = $this->tokenRepository->updateOrCreateToken([
                 'access_token' => $token['access_token'],
                 'token_type' => $token['token_type'],
                 'expires_at' => now()->addSeconds($token['expires_in']),

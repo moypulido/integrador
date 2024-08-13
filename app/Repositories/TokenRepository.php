@@ -11,8 +11,8 @@ class TokenRepository implements TokenRepositoryInterface
     {
         return Token::where('user_id', auth()->id())->latest()->first();
     }
-    
-    public function saveToken($token)
+
+    public function updateOrCreateToken($token)
     {
         Token::updateOrCreate(
             ['user_id' => auth()->id()],
@@ -20,10 +20,10 @@ class TokenRepository implements TokenRepositoryInterface
                 'access_token' => $token['access_token'],
                 'refresh_token' => $token['refresh_token'],
                 'expires_at' => $token['expires_at'],
-                'token_type' => $token['token_type'] ?? null, 
-                'scope' => $token['scope'] ?? null, 
-                ]
-            );
+                'token_type' => $token['token_type'] ?? null,
+                'scope' => $token['scope'] ?? null,
+            ]
+        );
         return Token::where('user_id', auth()->id())->latest()->first();
     }
 }

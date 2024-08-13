@@ -16,8 +16,8 @@ class InformacionController extends Controller
     public function __construct(
         MELIUserRepositoryInterface $MELIuserRepository,
         MELItokenRepositoryInterface $MELItokenRepository,
-        UserRepositoryInterface $userRepository)
-    {
+        UserRepositoryInterface $userRepository
+    ) {
         $this->MELIuserRepository = $MELIuserRepository;
         $this->MELItokenRepository = $MELItokenRepository;
         $this->userRepository = $userRepository;
@@ -25,9 +25,8 @@ class InformacionController extends Controller
 
     public function index()
     {
-        $code = $this->userRepository->getCodeAuthenticatedUser();
+        $code = $this->userRepository->getAuthenticatedUser()->code;
         $token = $this->MELItokenRepository->refreshToken($code);
-
 
         $user = $this->MELIuserRepository->getUserMe();
         return view('informacion', compact('user'));

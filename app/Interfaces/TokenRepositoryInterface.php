@@ -5,6 +5,5 @@ namespace App\Interfaces;
 interface TokenRepositoryInterface
 {
     public function getLastToken();
-
-    public function saveToken($token);
+    public function updateOrCreateToken($token);
 }

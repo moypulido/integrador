@@ -41,9 +41,4 @@ class UserRepository implements UserRepositoryInterface
     {
         return Auth::user();
     }
-
-    public function getCodeAuthenticatedUser()
-    {
-        return Auth::user()->code;
-    }
 }
