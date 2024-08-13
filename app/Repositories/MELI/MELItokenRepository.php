@@ -14,17 +14,15 @@ class MELItokenRepository implements MELItokenRepositoryInterface
 {
     protected $clientId;
     protected $clientSecret;
-    protected $redirectUri;
     protected $apiUrl;
     protected $code;
     public $httpClient;
     protected $tokenRepository;
 
-    public function __construct(TokenRepositoryInterface $tokenRepository)	
+    public function __construct(TokenRepositoryInterface $tokenRepository)
     {
         $this->clientId = config('services.mercadolibre.client_id');
         $this->clientSecret = config('services.mercadolibre.client_secret');
-        $this->redirectUri = config('services.mercadolibre.redirect_uri');
         $this->apiUrl = 'https://api.mercadolibre.com';
         $this->httpClient = new Client();
         $this->tokenRepository = $tokenRepository;
@@ -34,15 +32,11 @@ class MELItokenRepository implements MELItokenRepositoryInterface
     {
         $lastToken = $this->tokenRepository->getLastToken();
 
+
         if ($lastToken && now()->lt($lastToken->expires_at)) {
             return $lastToken->attributesToArray();
         }
 
-        if (is_null($this->clientId) || is_null($this->clientSecret)) {
-            Log::error('clientId o clientSecret no están configurados correctamente.');
-            return null;
-        }
-        
         $headers = [
             'accept' => 'application/json',
             'Content-Type' => 'application/x-www-form-urlencoded',
@@ -57,12 +51,10 @@ class MELItokenRepository implements MELItokenRepositoryInterface
             ]
         ];
 
-        Log::info('Enviando solicitud de refresh token con los siguientes parámetros:', $options['form_params']);
-
         try {
             $request = new Request('POST', "{$this->apiUrl}/oauth/token", $headers);
             $response = $this->httpClient->send($request, $options);
-            $token = json_decode($response->getBody()->getContents(), true); 
+            $token = json_decode($response->getBody()->getContents(), true);
 
             $token = $this->tokenRepository->saveToken([
                 'access_token' => $token['access_token'],

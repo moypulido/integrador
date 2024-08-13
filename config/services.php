@@ -32,9 +32,8 @@ return [
     ],
 
     'mercadolibre' => [
-        'client_id' => env('MELI_CLIENT_ID'),
-        'client_secret' => env('MELI_CLIENT_SECRET'),
-        'redirect_uri' => env('MELI_REDIRECT_URI'),
+        'client_id' => env('MERCADOLIBRE_CLIENT_ID'),
+        'client_secret' => env('MERCADOLIBRE_CLIENT_SECRET'),
     ],
 
 ];
