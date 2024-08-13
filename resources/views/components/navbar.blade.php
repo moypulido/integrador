@@ -13,7 +13,7 @@
             <div class="col-1">
                 <div class="d-flex flex-column vh-100">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light flex-column">
-                        <a class="navbar-brand" href="#">integrador</a>
+                        <a class="navbar-brand" href="{{ route('informacion.index') }}">integrador</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -24,25 +24,7 @@
                                     <a class="nav-link" href="{{ route('informacion.index') }}">Informacion</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Features</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Pricing</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
+                                    <a class="nav-link" href="{{ route('orders.index') }}">orders</a>
                                 </li>
                             </ul>
                         </div>

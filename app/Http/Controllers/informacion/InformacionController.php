@@ -29,6 +29,6 @@ class InformacionController extends Controller
         $token = $this->MELItokenRepository->refreshToken($code);
 
         $user = $this->MELIuserRepository->getUserMe();
-        return view('informacion', compact('user'));
+        return view('informacion.index', compact('user'));
     }
 }
