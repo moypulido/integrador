@@ -2,7 +2,9 @@
     <h1>User Information</h1>
     <p><strong>ID:</strong> {{ $user->id }}</p>
     <p><strong>Nickname:</strong> {{ $user->nickname }}</p>
-    <p><strong>Registration Date:</strong> {{ \Carbon\Carbon::parse($user->registration_date)->format('Y-m-d H:i:s') }}
+    <p><strong>Registration Date:</strong>
+        {{ \Carbon\Carbon::parse($user->registration_date)->format('Y-m-d H:i:s') }},
+        {{ \Carbon\Carbon::parse($user->registration_date)->diffForHumans() }}
     </p>
     <p><strong>First Name:</strong> {{ $user->first_name }}</p>
     <p><strong>Last Name:</strong> {{ $user->last_name }}</p>
