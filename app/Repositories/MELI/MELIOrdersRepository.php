@@ -22,15 +22,23 @@ class MELIOrdersRepository implements MELIOrdersRepositoryInterface
         $this->client = new Client();
     }
 
-    public function getOrders($seller_id)
+    public function getOrders($seller_id, $filters = [], $sort = null)
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->tokenRepository->getLastToken()->access_token,
             'x-format-new'  => 'true'
         ];
 
+        // Construir la URL con los filtros y ordenamientos
+        $queryParams = array_merge(['seller' => $seller_id], $filters);
+        if ($sort) {
+            $queryParams['sort'] = $sort;
+        }
+        $queryString = http_build_query($queryParams);
+        $url = 'https://api.mercadolibre.com/orders/search?' . $queryString;
+
         try {
-            $request = new Request('GET', 'https://api.mercadolibre.com/orders/search?seller=' . $seller_id, $headers);
+            $request = new Request('GET', $url, $headers);
             $response = $this->client->sendAsync($request)->wait();
             return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
