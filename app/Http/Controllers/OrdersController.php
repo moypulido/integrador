@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\MELI\MELIOrdersRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Interfaces\UserRepositoryInterface;
+use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
@@ -32,7 +33,15 @@ class OrdersController extends Controller
         }
 
         $user_meli_id = $this->userRepository->getAuthenticatedUser()->id_meli;
-        $orders = $this->ordersRepository->getOrders($user_meli_id)->results;
+
+        $filters = [
+            'order.date_created.from' => Carbon::now()->subDays(60)->toIso8601String(),
+            'order.date_created.to' =>  Carbon::now()->toIso8601String(),
+        ];
+
+        $sort = 'date_desc';
+
+        $orders = $this->ordersRepository->getOrders($user_meli_id, $filters, $sort)->results;
 
         return view('orders.index', compact('orders'));
     }
