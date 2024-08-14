@@ -8,18 +8,20 @@ use App\Interfaces\TokenRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client;
-use App\Models\Token;
 
-class MELIuserRepository implements MELIUserRepositoryInterface {
+class MELIuserRepository implements MELIUserRepositoryInterface
+{
     protected $client;
     protected $tokenRepository;
 
-    public function __construct( TokenRepositoryInterface $tokenRepository ) {
+    public function __construct(TokenRepositoryInterface $tokenRepository)
+    {
         $this->tokenRepository = $tokenRepository;
         $this->client = new Client();
     }
 
-    public function getUserMe() {
+    public function getUserMe()
+    {
         $refreshToken = $this->tokenRepository->getLastToken();
 
         $headers = [

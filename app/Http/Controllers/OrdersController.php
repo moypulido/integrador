@@ -2,42 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\MELI\MELIOrdersRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Interfaces\UserRepositoryInterface;
 
 class OrdersController extends Controller
 {
-    public function index()
+    protected $ordersRepository;
+    protected $userRepository;
+
+    public function __construct(MELIOrdersRepositoryInterface $ordersRepository, UserRepositoryInterface $userRepository)
     {
-        return view('orders.index');
+        $this->ordersRepository = $ordersRepository;
+        $this->userRepository = $userRepository;
     }
 
-    public function create()
+    public function index(Request $request)
     {
-        // Logic for displaying the create order form
-    }
+        $order_id = $request->query('order_id');
 
-    public function store(Request $request)
-    {
-        // Logic for storing a new order
+        if ($order_id) {
+            $order = $this->ordersRepository->getOrder($order_id);
+            $orders = collect([$order]);
+            return view('orders.index', compact('orders'));
+        }
+
+        $user_meli_id = $this->userRepository->getAuthenticatedUser()->id_meli;
+        $orders = $this->ordersRepository->getOrders($user_meli_id)->results;
+
+        return view('orders.index', compact('orders'));
     }
 
     public function show($id)
     {
-        // Logic for displaying a specific order
-    }
-
-    public function edit($id)
-    {
-        // Logic for displaying the edit order form
+        $orders = $this->ordersRepository->getOrder($id);
+        return view('orders.index', compact('orders'));
     }
 
     public function update(Request $request, $id)
     {
-        // Logic for updating a specific order
+        //
     }
 
     public function destroy($id)
     {
-        // Logic for deleting a specific order
+        //
+    }
+
+    public function create()
+    {
+        //
+    }
+
+    public function store(Request $request)
+    {
+        //
+    }
+
+    public function edit($id)
+    {
+        //
     }
 }
