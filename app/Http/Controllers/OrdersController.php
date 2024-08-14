@@ -23,8 +23,12 @@ class OrdersController extends Controller
 
         if ($order_id) {
             $order = $this->ordersRepository->getOrder($order_id);
-            $orders = collect([$order]);
-            return view('orders.index', compact('orders'));
+            if ($order) {
+                $orders = collect([$order]);
+                return view('orders.index', compact('orders'));
+            } else {
+                return redirect()->route('orders.index')->with('error', 'Order not found');
+            }
         }
 
         $user_meli_id = $this->userRepository->getAuthenticatedUser()->id_meli;

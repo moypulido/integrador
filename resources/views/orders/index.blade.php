@@ -25,8 +25,8 @@
             const searchInput = document.querySelector('input[name="order_id"]');
             searchInput.addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
-                    event.preventDefault(); // Evita el comportamiento predeterminado del Enter
-                    document.getElementById('searchForm').submit(); // Envía el formulario
+                    event.preventDefault();
+                    document.getElementById('searchForm').submit();
                 }
             });
         });

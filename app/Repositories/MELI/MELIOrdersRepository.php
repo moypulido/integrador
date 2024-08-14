@@ -52,8 +52,12 @@ class MELIOrdersRepository implements MELIOrdersRepositoryInterface
             $response = $this->client->sendAsync($request)->wait();
             return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
+            if ($e->getResponse()->getStatusCode() == 404) {
+                Log::error('Order not found: ' . $order_id);
+                return null; // Devolver null si el pedido no se encuentra
+            }
             Log::error($e->getMessage());
-            return $e->getResponse()->getBody()->getContents();
+            return null; // Devolver null en caso de otros errores
         }
     }
 }
