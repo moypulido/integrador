@@ -21,12 +21,17 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
         $order_id = $request->query('order_id');
+        $page = $request->query('page', 1);
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        $total = 0;
 
         if ($order_id) {
             $order = $this->ordersRepository->getOrder($order_id);
             if ($order) {
                 $orders = collect([$order]);
-                return view('orders.index', compact('orders'));
+                $total = 1;
+                return view('orders.index', compact('orders', 'total', 'page', 'limit'));
             } else {
                 return redirect()->route('orders.index')->with('error', 'Order not found');
             }
@@ -41,9 +46,11 @@ class OrdersController extends Controller
 
         $sort = 'date_desc';
 
-        $orders = $this->ordersRepository->getOrders($user_meli_id, $filters, $sort)->results;
+        $response = $this->ordersRepository->getOrders($user_meli_id, $filters, $sort, $limit, $offset);
+        $orders = collect($response->results);
+        $total = $response->paging->total;
 
-        return view('orders.index', compact('orders'));
+        return view('orders.index', compact('orders', 'total', 'page', 'limit'));
     }
 
     public function show($id)

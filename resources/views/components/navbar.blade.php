@@ -11,30 +11,39 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-1">
-                <div class="d-flex flex-column vh-100">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light flex-column">
-                        <a class="navbar-brand" href="{{ route('informacion.index') }}">integrador</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav flex-column vh-100">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('informacion.index') }}">Informacion</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('orders.index') }}">orders</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
+            <div class="col-1.2 d-flex flex-column">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light flex-column flex-grow-1">
+                    <a class="navbar-brand" href="{{ route('informacion.index') }}">MELI integrator</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse flex-column flex-grow-1" id="navbarNav">
+                        <ul class="navbar-nav flex-column flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('informacion.index') }}">Informacion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('orders.index') }}">orders</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dropdown
+                                </a>
+                                <div href= '#' class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </nav>
             </div>
 
             <div class="col-10">
-                <!-- Incluir el componente de mensajes -->
                 <x-messages />
                 {{ $slot }}
             </div>

@@ -20,6 +20,22 @@
         @endforeach
     </tbody>
 
+    <div class="container mt-4">
+        <ul class="pagination">
+            @if ($page > 1)
+                <li class="page-item">
+                    <a class="page-link" href="{{ route('orders.index', ['page' => $page - 1]) }}">Previous</a>
+                </li>
+            @endif
+
+            @if ($page < ceil($total / $limit))
+                <li class="page-item">
+                    <a class="page-link" href="{{ route('orders.index', ['page' => $page + 1]) }}">Next</a>
+                </li>
+            @endif
+        </ul>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.querySelector('input[name="order_id"]');
