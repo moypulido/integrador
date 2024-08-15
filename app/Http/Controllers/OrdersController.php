@@ -20,22 +20,27 @@ class OrdersController extends Controller
 
     public function index(Request $request)
     {
-        $order_id = $request->query('order_id');
         $page = $request->query('page', 1);
         $limit = 10;
         $offset = ($page - 1) * $limit;
         $total = 0;
 
-        if ($order_id) {
-            $order = $this->ordersRepository->getOrder($order_id);
-            if ($order) {
-                $orders = collect([$order]);
-                $total = 1;
-                return view('orders.index', compact('orders', 'total', 'page', 'limit'));
-            } else {
-                return redirect()->route('orders.index')->with('error', 'Order not found');
-            }
-        }
+        // if ($request->query('order_id')) {
+        //     $order_id = $request->query('order_id');
+
+        //     if (!is_numeric($order_id)) {
+        //         return redirect()->route('orders.index')->with('error', 'Order ID must be a number');
+        //     }
+        //     $order = $this->ordersRepository->getOrder($order_id);
+        //     if ($order) {
+        //         dd($order);
+        //         $orders = collect([$order]);
+        //         $total = 1;
+        //         return view('orders.index', compact('orders', 'total', 'page', 'limit'));
+        //     } else {
+        //         return redirect()->route('orders.index')->with('error', 'Order not found');
+        //     }
+        // }
 
         $user_meli_id = $this->userRepository->getAuthenticatedUser()->id_meli;
 

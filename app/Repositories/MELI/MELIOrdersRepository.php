@@ -13,7 +13,6 @@ class MELIOrdersRepository implements MELIOrdersRepositoryInterface
 {
     protected $client;
     protected $tokenRepository;
-    protected $UserRepository;
 
     public function __construct(
         TokenRepositoryInterface $tokenRepository
@@ -58,6 +57,7 @@ class MELIOrdersRepository implements MELIOrdersRepositoryInterface
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->tokenRepository->getLastToken()->access_token,
+            'x-format-new'  => 'true'
         ];
 
         $url = 'https://api.mercadolibre.com/orders/' . $order_id;
@@ -68,11 +68,10 @@ class MELIOrdersRepository implements MELIOrdersRepositoryInterface
             return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
             if ($e->getResponse()->getStatusCode() == 404) {
-                Log::error('Order not found: ' . $order_id);
-                return null; // Devolver null si el pedido no se encuentra
+                return null;
             }
             Log::error($e->getMessage());
-            return null; // Devolver null en caso de otros errores
+            return null;
         }
     }
 }
