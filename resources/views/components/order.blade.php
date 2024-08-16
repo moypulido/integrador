@@ -2,7 +2,9 @@
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4>{{ $order->id }}</h4>
-            <button class="btn btn-secondary ml-auto" onclick="printLabel({{ $order->id }})">Print Label</button>
+            <form action="{{ route('orders.show', ['order' => $order->id]) }}" method="GET" style="display:inline;">
+                <button type="submit" class="btn btn-secondary ml-auto">info</button>
+            </form>
         </div>
         <div class="card-body">
             <h6 class="card-title">Pack ID: {{ $order->pack_id ?? 'N/A' }}</h6>

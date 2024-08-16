@@ -3,18 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\MELI\MELIOrdersRepositoryInterface;
-use Illuminate\Http\Request;
+use App\Interfaces\MELI\MELIPacksRepositoryInterface;
+use App\Interfaces\MELI\MELIShipmentsRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
     protected $MELIordersRepository;
+    protected $MELIPacksRepository;
+    protected $MELIShipmentsRepository;
     protected $userRepository;
 
-    public function __construct(MELIOrdersRepositoryInterface $MELIordersRepository, UserRepositoryInterface $userRepository)
-    {
+    public function __construct(
+        MELIOrdersRepositoryInterface $MELIordersRepository,
+        MELIPacksRepositoryInterface $MELIPacksRepository,
+        MELIShipmentsRepositoryInterface $MELIShipmentsRepository,
+        UserRepositoryInterface $userRepository,
+    ) {
         $this->MELIordersRepository = $MELIordersRepository;
+        $this->MELIPacksRepository = $MELIPacksRepository;
+        $this->MELIShipmentsRepository = $MELIShipmentsRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -39,10 +49,17 @@ class OrdersController extends Controller
         return view('orders.index', compact('orders', 'total', 'page', 'limit'));
     }
 
-    public function show(request $request, $order_id)
+    public function show(request $request)
     {
-        dd($request, $order_id);
-        return view('orders.show', compact('orders'));
+        $order_id = $request->route('order');
+
+        $order = $this->MELIordersRepository->getOrder($order_id);
+
+        $items = $this->MELIShipmentsRepository->getItemsByShipment($order->shipping->id);
+
+        // dd($items);
+
+        return view('orders.show', compact('order', 'items'));
     }
 
     public function update(Request $request, $id)
@@ -71,14 +88,30 @@ class OrdersController extends Controller
     }
     public function search(Request $request)
     {
-        $orderId = $request->input('order_id');
-        
-        dd($request, $orderId);
+        $this->validate($request, [
+            'order_id' => 'required|numeric',
+        ]);
 
-        // if ($orderId) {
-        //     return redirect()->route('orders.show', ['order' => $orderId]);
-        // }
-    
-        // return redirect()->route('orders.index')->with('error', 'Order ID not found');
+        $order_id = $request->input('order_id');
+
+        $order = $this->MELIordersRepository->getOrder($order_id);
+
+        if ($order) {
+            return redirect()->route('orders.show', ['order' => $order_id]);
+        }
+
+        $pack = $this->MELIPacksRepository->getPack($order_id);
+
+        if ($pack) {
+            $orders = collect();
+            foreach ($pack->orders as $order) {
+                $orders->push($this->MELIordersRepository->getOrder($order->id));
+            }
+            $limit = $total = count($orders);
+            $page = 1;
+            return view('orders.index', compact('orders', 'total', 'page', 'limit'));
+        }
+
+        return redirect()->route('orders.index')->with('error', 'the order does not exist');
     }
 }
