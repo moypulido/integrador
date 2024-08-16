@@ -30,6 +30,8 @@ class MELItokenRepository implements MELItokenRepositoryInterface
 
     public function refreshToken($code)
     {
+
+
         $lastToken = $this->tokenRepository->getLastToken();
 
 

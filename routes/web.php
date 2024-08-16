@@ -14,5 +14,6 @@ Route::resource('/register', RegisterController::class);
 
 Route::middleware(['auth.redirect'])->group(function () {
     Route::get('/', [InformacionController::class, 'index'])->name('informacion.index');
+    Route::get('/orders/search', [OrdersController::class, 'search'])->name('orders.search');
     Route::resource('/orders', OrdersController::class);
 });

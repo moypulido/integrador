@@ -9,39 +9,20 @@ use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
-    protected $ordersRepository;
+    protected $MELIordersRepository;
     protected $userRepository;
 
-    public function __construct(MELIOrdersRepositoryInterface $ordersRepository, UserRepositoryInterface $userRepository)
+    public function __construct(MELIOrdersRepositoryInterface $MELIordersRepository, UserRepositoryInterface $userRepository)
     {
-        $this->ordersRepository = $ordersRepository;
+        $this->MELIordersRepository = $MELIordersRepository;
         $this->userRepository = $userRepository;
     }
 
     public function index(Request $request)
     {
-        $page = $request->query('page', 1);
-        $limit = 10;
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 10);
         $offset = ($page - 1) * $limit;
-        $total = 0;
-
-        // if ($request->query('order_id')) {
-        //     $order_id = $request->query('order_id');
-
-        //     if (!is_numeric($order_id)) {
-        //         return redirect()->route('orders.index')->with('error', 'Order ID must be a number');
-        //     }
-        //     $order = $this->ordersRepository->getOrder($order_id);
-        //     if ($order) {
-        //         dd($order);
-        //         $orders = collect([$order]);
-        //         $total = 1;
-        //         return view('orders.index', compact('orders', 'total', 'page', 'limit'));
-        //     } else {
-        //         return redirect()->route('orders.index')->with('error', 'Order not found');
-        //     }
-        // }
-
         $user_meli_id = $this->userRepository->getAuthenticatedUser()->id_meli;
 
         $filters = [
@@ -51,17 +32,17 @@ class OrdersController extends Controller
 
         $sort = 'date_desc';
 
-        $response = $this->ordersRepository->getOrders($user_meli_id, $filters, $sort, $limit, $offset);
+        $response = $this->MELIordersRepository->getOrders($user_meli_id, $filters, $sort, $limit, $offset);
         $orders = collect($response->results);
         $total = $response->paging->total;
 
         return view('orders.index', compact('orders', 'total', 'page', 'limit'));
     }
 
-    public function show($id)
+    public function show(request $request, $order_id)
     {
-        $orders = $this->ordersRepository->getOrder($id);
-        return view('orders.index', compact('orders'));
+        dd($request, $order_id);
+        return view('orders.show', compact('orders'));
     }
 
     public function update(Request $request, $id)
@@ -87,5 +68,17 @@ class OrdersController extends Controller
     public function edit($id)
     {
         //
+    }
+    public function search(Request $request)
+    {
+        $orderId = $request->input('order_id');
+        
+        dd($request, $orderId);
+
+        // if ($orderId) {
+        //     return redirect()->route('orders.show', ['order' => $orderId]);
+        // }
+    
+        // return redirect()->route('orders.index')->with('error', 'Order ID not found');
     }
 }
