@@ -52,14 +52,12 @@ class OrdersController extends Controller
     public function show(request $request)
     {
         $order_id = $request->route('order');
-
         $order = $this->MELIordersRepository->getOrder($order_id);
+        $shipmet = $this->MELIShipmentsRepository->getShipmet($order->shipping->id);
+        $items = $shipmet->shipping_items;
 
-        $items = $this->MELIShipmentsRepository->getItemsByShipment($order->shipping->id);
 
-        // dd($items);
-
-        return view('orders.show', compact('order', 'items'));
+        return view('orders.show', compact('order', 'shipmet', 'items'));
     }
 
     public function update(Request $request, $id)

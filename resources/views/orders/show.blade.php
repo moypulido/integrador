@@ -16,7 +16,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <h6>{{ $item->description }}</h6>
-                                <p> MLM: {{ $item->item_id }}</p>
+                                <p> MLM: {{ $item->id }}</p>
                             </div>
                             <span>quantity: {{ $item->quantity }}</span>
                         </li>
