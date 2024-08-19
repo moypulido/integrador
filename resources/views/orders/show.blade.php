@@ -4,7 +4,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4>{{ $order->id }}</h4>
                 <form action="{{ route('orders.show', ['order' => $order->id]) }}" method="GET" style="display:inline;">
-                    <button type="submit" class="btn btn-secondary ml-auto">print label</button>
+                    <button type="submit"
+                        class="btn btn-secondary ml-auto">{{ $shipmet->substatus ?? 'entregado' }}</button>
                 </form>
             </div>
             <div class="card-body">
@@ -12,13 +13,17 @@
                 <p class="card-text">Order Date: {{ $order->date_created }}</p>
                 <h6 class="mt-4">Items:</h6>
                 <ul class="list-group">
-                    @foreach ($items as $item)
+                    @foreach ($order->order_items as $item)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <h6>{{ $item->description }}</h6>
-                                <p> MLM: {{ $item->id }}</p>
+                                <h6>{{ $item->item->title }}
+                                    <br>
+                                    MLM: {{ $item->item->id }}
+                                    <br>
+                                    SKU: {{ $item->item->seller_sku }}
+                                </h6>
                             </div>
-                            <span>quantity: {{ $item->quantity }}</span>
+                            <span>Quantity: {{ $item->quantity }}</span>
                         </li>
                     @endforeach
                 </ul>

@@ -54,10 +54,8 @@ class OrdersController extends Controller
         $order_id = $request->route('order');
         $order = $this->MELIordersRepository->getOrder($order_id);
         $shipmet = $this->MELIShipmentsRepository->getShipmet($order->shipping->id);
-        $items = $shipmet->shipping_items;
 
-
-        return view('orders.show', compact('order', 'shipmet', 'items'));
+        return view('orders.show', compact('order', 'shipmet'));
     }
 
     public function update(Request $request, $id)

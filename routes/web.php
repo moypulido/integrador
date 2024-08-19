@@ -2,8 +2,8 @@
 // routes/web.php
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\loginController;
-use App\Http\Controllers\registerController;
+use App\Http\Controllers\Authentication\loginController;
+use App\Http\Controllers\Authentication\registerController;
 
 use App\Http\Controllers\Informacion\InformacionController;
 use App\Http\Controllers\OrdersController;
