@@ -3,9 +3,10 @@
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4>{{ $order->id }}</h4>
-                <form action="{{ route('label.print', ['shipping_id' => $order->shipping->id]) }}" method="GET"
-                    style="display:inline;">
-                    <button type="submit" class="btn btn-secondary ml-auto">print label</button>
+                <form action="{{ route('label.print') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <input type="hidden" name="order" value="{{ json_encode($order) }}">
+                    <button type="submit" class="btn btn-secondary ml-auto">{{ }}</button>
                 </form>
             </div>
             <div class="card-body">

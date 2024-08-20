@@ -19,5 +19,5 @@ Route::middleware(['auth.redirect'])->group(function () {
     Route::get('/orders/search', [OrdersController::class, 'search'])->name('orders.search');
     Route::resource('/orders', OrdersController::class);
 
-    Route::get('/label/{shipping_id}', [LabelController::class, 'print'])->name('label.print');
+    Route::post('/label/print', [LabelController::class, 'print'])->name('label.print');
 });
