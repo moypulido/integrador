@@ -49,11 +49,17 @@ class OrdersController extends Controller
         return view('orders.index', compact('orders', 'total', 'page', 'limit'));
     }
 
-    public function show(request $request)
+    public function show(Request $request)
     {
         $order_id = $request->route('order');
         $order = $this->MELIordersRepository->getOrder($order_id);
-        return view('orders.show', compact('order'));
+        $order->date_created = formatDate($order->date_created);
+        $shipment = $this->MELIShipmentsRepository->getShipmet($order->shipping->id);
+        $shipment->status_history = formatDates($shipment->status_history);
+
+        // dd($shipment, $order);
+
+        return view('orders.show', compact('order', 'shipment'));
     }
 
     public function update(Request $request, $id)

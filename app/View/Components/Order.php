@@ -16,10 +16,7 @@ class Order extends Component
      */
     public function __construct($order)
     {
-        // dd($order->date_created);
-        $order->date_created = Carbon::parse($order->date_created)
-            ->setTimezone('Etc/GMT+6')
-            ->translatedFormat('d M Y H:i') . ' hs';
+        $order->date_created = formatDate($order->date_created);
         $this->order = $order;
     }
 

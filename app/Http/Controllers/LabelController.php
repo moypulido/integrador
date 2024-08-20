@@ -18,23 +18,33 @@ class LabelController extends Controller
         $this->meliShipmentsRepository = $meliShipmentsRepository;
     }
 
+    private function isJson($string)
+    {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
     public function print(Request $request)
     {
         $order = json_decode($request->input('order'), true);
         $shipping_id = $order['shipping']['id'];
         $items = $order['order_items'];
 
-        // Obtener la etiqueta en formato PDF
-        $label = $this->meliShipmentsRepository->getShippingLabels($shipping_id);
+        $labelResponse = $this->meliShipmentsRepository->getShippingLabels($shipping_id);
 
-        // Guardar el PDF temporalmente
+        if (is_string($labelResponse) && $this->isJson($labelResponse)) {
+            $labelData = json_decode($labelResponse, true);
+            if (isset($labelData['message'])) {
+                return redirect()->back()->withErrors(['error' => $labelData['message']]);
+            }
+        }
+
         $tempFilePath = storage_path('app/temp_label.pdf');
-        file_put_contents($tempFilePath, $label);
+        file_put_contents($tempFilePath, $labelResponse);
 
         if (!file_exists($tempFilePath) || !is_readable($tempFilePath)) {
             return response()->json(['error' => 'No se pudo generar el archivo PDF de la etiqueta.'], 500);
         }
-
 
         $pdf = new Fpdi();
 
@@ -56,14 +66,13 @@ class LabelController extends Controller
 
         $text = utf8_decode($text);
 
-
         $pdf->AddPage();
         $tplIdx = $pdf->importPage(1);
         $pdf->useTemplate($tplIdx);
 
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(15, 85);
+        $pdf->SetXY(15, 70);
         $pdf->MultiCell(0, 5, $text);
 
         // Guardar el PDF modificado
