@@ -12,11 +12,14 @@
                 <p class="card-text">Order Date: {{ $order->date_created }}</p>
                 <h6 class="mt-4">Items:</h6>
                 <ul class="list-group">
-                    @foreach ($items as $item)
+                    @foreach ($order->order_items as $item)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <h6>{{ $item->description }}</h6>
-                                <p> MLM: {{ $item->id }}</p>
+                                <h6>{{ $item->item->title }} <br>
+                                    MLM: {{ $item->item->id }} <br>
+                                    SKU {{ $item->item->seller_sku }} <br>
+                                    SKU {{ $item->item->seller_custom_field }}</h6>
+
                             </div>
                             <span>quantity: {{ $item->quantity }}</span>
                         </li>
