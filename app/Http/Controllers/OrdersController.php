@@ -53,6 +53,8 @@ class OrdersController extends Controller
     {
         $order_id = $request->route('order');
         $order = $this->MELIordersRepository->getOrder($order_id);
+
+        // dd($order);
         return view('orders.show', compact('order'));
     }
 
