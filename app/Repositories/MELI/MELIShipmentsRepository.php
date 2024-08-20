@@ -56,4 +56,22 @@ class MELIShipmentsRepository implements MELIShipmentsRepositoryInterface
             return $e->getResponse()->getBody()->getContents();
         }
     }
+
+    public function getShippingLabels($shipment_id)
+    {
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->tokenRepository->getLastToken()->access_token,
+        ];
+
+        $url = 'https://api.mercadolibre.com/shipment_labels?shipment_ids=' . $shipment_id . '&response_type=pdf';
+
+        try {
+            $request = new Request('GET', $url, $headers);
+            $response = $this->client->sendAsync($request)->wait();
+            return $response->getBody()->getContents();
+        } catch (RequestException $e) {
+            Log::error($e->getMessage());
+            return $e->getResponse()->getBody()->getContents();
+        }
+    }
 }
