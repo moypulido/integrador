@@ -72,7 +72,7 @@ class LabelController extends Controller
 
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(15, 70);
+        $pdf->SetXY(15, 85);
         $pdf->MultiCell(0, 5, $text);
 
         // Guardar el PDF modificado
