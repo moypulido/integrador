@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-1.2 d-flex flex-column">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light flex-column flex-grow-1">
-                    <a class="navbar-brand" href="{{ route('informacion.index') }}">MELI integrator</a>
+                    <a class="navbar-brand" href="{{ route('informacion.index') }}">{{ __('messages.Integrator') }}</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -21,13 +21,14 @@
                     <div class="collapse navbar-collapse flex-column flex-grow-1" id="navbarNav">
                         <ul class="navbar-nav flex-column flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('informacion.index') }}">Informacion</a>
+                                <a class="nav-link"
+                                    href="{{ route('informacion.index') }}">{{ __('messages.Informacion') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('orders.index') }}">orders</a>
+                                <a class="nav-link" href="{{ route('orders.index') }}">{{ __('messages.Orders') }}</a>
                             </li>
 
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Dropdown
@@ -36,7 +37,7 @@
                                     <a class="dropdown-item" href="#">Action</a>
                                     <a class="dropdown-item" href="#">Another action</a>
                                 </div>
-                            </li>
+                            </li> --}}
 
                         </ul>
                     </div>

@@ -31,7 +31,7 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
         $page = $request->input('page', 1);
-        $limit = $request->input('limit', 10);
+        $limit = $request->input('limit', 5);
         $offset = ($page - 1) * $limit;
         $user_meli_id = $this->userRepository->getAuthenticatedUser()->id_meli;
 
@@ -45,6 +45,8 @@ class OrdersController extends Controller
         $response = $this->MELIordersRepository->getOrders($user_meli_id, $filters, $sort, $limit, $offset);
         $orders = collect($response->results);
         $total = $response->paging->total;
+
+        // dd($orders);
 
         return view('orders.index', compact('orders', 'total', 'page', 'limit'));
     }
