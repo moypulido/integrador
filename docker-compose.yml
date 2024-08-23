@@ -12,8 +12,18 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./vendor:/var/www/vendor
+      - ./node_modules:/var/www/node_modules
     ports:
       - "9000:9000"
+    networks:
+      - laravel
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    container_name: redis
     networks:
       - laravel
 
@@ -26,6 +36,7 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/cache:/var/cache/nginx
     networks:
       - laravel
 
@@ -69,6 +80,7 @@ services:
 
 networks:
   laravel:
+    driver: bridge
 
 volumes:
   dbdata:
