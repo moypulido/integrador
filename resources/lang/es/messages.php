@@ -40,4 +40,5 @@ return [
     'date_returned_to_sender' => 'Fecha de devolución al remitente',
     'date_handling' => 'Fecha de manejo',
     'date_ready_to_ship' => 'Fecha lista para enviar',
+    'Items' => 'Artículos',
 ];
