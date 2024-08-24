@@ -9,6 +9,8 @@ use App\Http\Controllers\Informacion\InformacionController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\LabelController;
 
+use App\Interfaces\MELI\MELISitesRepositoryInterface;
+
 
 Route::resource('/login', LoginController::class);
 Route::resource('/register', RegisterController::class);
@@ -18,6 +20,12 @@ Route::middleware(['auth.redirect'])->group(function () {
 
     Route::get('/orders/search', [OrdersController::class, 'search'])->name('orders.search');
     Route::resource('/orders', OrdersController::class);
-
     Route::post('/label/print', [LabelController::class, 'print'])->name('label.print');
+});
+
+
+Route::get('/Api_test', function () {
+    $meliSitesRepository = app(MELISitesRepositoryInterface::class);
+    $items = $meliSitesRepository->getItemsbyUser();
+    dd($items);
 });
