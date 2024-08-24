@@ -28,7 +28,7 @@ class MELISitesRepository implements MELISitesRepositoryInterface
         $this->client = new Client();
     }
 
-    public function getItemsbyUser($sort = null, $filters = [])
+    public function getItemsbyUser($sort = null, $filters = [], $limit = 10, $offset = 0)
     {
         $user = $this->userRepository->getAuthenticatedUser();
 
@@ -51,10 +51,10 @@ class MELISitesRepository implements MELISitesRepositoryInterface
                 }
             }
 
+            $url .= '&limit=' . $limit . '&offset=' . $offset;
+
 
             $request = new Request('GET', $url, $headers);
-
-            // dd($request);
 
             $response = $this->client->sendAsync($request)->wait();
             return json_decode($response->getBody()->getContents());
