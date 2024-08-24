@@ -41,4 +41,10 @@ return [
     'date_handling' => 'Fecha de manejo',
     'date_ready_to_ship' => 'Fecha lista para enviar',
     'Items' => 'Artículos',
+    'registration_date' => 'Fecha de registro',
+    'seller_reputation' => 'Reputación del vendedor',
+    'power_seller_status' => 'Estatus de vendedor',
+    'total_transactions' => 'Transacciones totales',
+    'total_canceled' => 'Total cancelado',
+    'total_completed' => 'Total completado',
 ];

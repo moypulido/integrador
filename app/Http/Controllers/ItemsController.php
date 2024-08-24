@@ -21,7 +21,15 @@ class ItemsController extends Controller
 
         $response = $this->meliSitesRepository->getItemsbyUser();
 
-        // Asegúrate de que $response->sort y $response->filters sean objetos
+        $response = $this->handleFiltersAndSorts($response);
+
+        dd($response);
+
+        return view('items.index', compact('response'));
+    }
+
+    private function handleFiltersAndSorts($response)
+    {
         if (is_array($response->sort)) {
             $response->sort = (object) $response->sort;
         }
@@ -35,7 +43,7 @@ class ItemsController extends Controller
         $response->available_sorts = array_merge([$response->sort], $response->available_sorts);
         $response->available_filters = array_merge($response->filters, $response->available_filters);
 
-        return view('items.index', compact('response'));
+        return $response;
     }
 
     public function create()

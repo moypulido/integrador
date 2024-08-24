@@ -35,6 +35,7 @@ class MELISitesRepository implements MELISitesRepositoryInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $this->tokenRepository->getLastToken()->access_token,
+            'x-format-new'  => 'true'
         ];
 
 
