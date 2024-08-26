@@ -16,6 +16,8 @@ use App\Interfaces\MELI\MELIShipmentsRepositoryInterface;
 use App\Repositories\MELI\MELIShipmentsRepository;
 use App\Interfaces\MELI\MELISitesRepositoryInterface;
 use App\Repositories\MELI\MELISitesRepository;
+use App\Interfaces\MELI\MELIItemsRepositoryInterface;
+use App\Repositories\MELI\MELIItemsRepository;
 
 use App\Interfaces\TokenRepositoryInterface;
 use App\Repositories\TokenRepository;
@@ -36,6 +38,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(MELIPacksRepositoryInterface::class, MELIPacksRepository::class);
         $this->app->bind(MELIShipmentsRepositoryInterface::class, MELIShipmentsRepository::class);
         $this->app->bind(MELISitesRepositoryInterface::class, MELISitesRepository::class);
+        $this->app->bind(MELIItemsRepositoryInterface::class, MELIItemsRepository::class);
 
         // DataBase
         $this->app->bind(TokenRepositoryInterface::class, TokenRepository::class);

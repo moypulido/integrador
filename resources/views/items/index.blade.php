@@ -150,7 +150,7 @@
 
 
     @foreach ($response->results as $item)
-        <p>{{ $item }}</p>
+        <x-item :item="$item" />
     @endforeach
     </div>
 
