@@ -35,7 +35,7 @@ class MELISitesRepository implements MELISitesRepositoryInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $this->tokenRepository->getLastToken()->access_token,
-            'x-format-new'  => 'true'
+            'search_type'  => 'scan',
         ];
 
 
@@ -48,12 +48,16 @@ class MELISitesRepository implements MELISitesRepositoryInterface
 
             if (!empty($filters)) {
                 foreach ($filters as $key => $value) {
-                    $url .= '&' . $key . '=' . $value;
+                    if (is_array($value)) {
+                        $value = implode(',', $value);
+                    }
+                    $url .= '&' . $key . '=' . urlencode($value);
                 }
             }
 
             $url .= '&limit=' . $limit . '&offset=' . $offset;
 
+            // dd($url);
 
             $request = new Request('GET', $url, $headers);
 

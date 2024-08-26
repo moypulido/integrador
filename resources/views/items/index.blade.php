@@ -3,53 +3,6 @@
     <div class="container mt-4">
 
         <h1>{{ __('messages.Items') }}</h1>
-
-        <br>
-
-        <div class="d-flex justify-content-between container mt-2">
-            <div class="container bg-light p-4 rounded shadow-sm">
-                <div class="row mb-3">
-                    <div class="col">
-                        <a href="{{ $response->seller->permalink }}" target="_blank" class="text-primary font-weight-bold">
-                            {{ $response->seller->nickname }}
-                        </a>
-                    </div>
-                    <div class="col text-muted">
-                        <strong>{{ __('messages.registration_date') }}:</strong>
-                        {{ formatDate($response->seller->registration_date) }}
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <strong>{{ __('messages.seller_reputation') }}:</strong>
-                        <span class="badge badge-secondary">{{ $response->seller->seller_reputation->level_id }}</span>
-                    </div>
-                    <div class="col">
-                        <strong>{{ __('messages.power_seller_status') }}:</strong>
-                        <span
-                            class="badge badge-secondary">{{ $response->seller->seller_reputation->power_seller_status }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <strong>{{ __('messages.total_transactions') }}:</strong>
-                        <span
-                            class="badge badge-secondary">{{ $response->seller->seller_reputation->transactions->total }}</span>
-                    </div>
-                    <div class="col">
-                        <strong>{{ __('messages.total_canceled') }}:</strong>
-                        <span
-                            class="badge badge-secondary">{{ $response->seller->seller_reputation->transactions->canceled }}</span>
-                    </div>
-                    <div class="col">
-                        <strong>{{ __('messages.total_completed') }}:</strong>
-                        <span
-                            class="badge badge-secondary">{{ $response->seller->seller_reputation->transactions->completed }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <br>
 
         <div class="d-flex justify-content-between container mt-4">
@@ -62,16 +15,18 @@
                         aria-describedby="addon-wrapping">
                 </div>
             </form>
+
             <form method="GET" action="{{ route('items.index') }}">
+
                 <!-- Botón para abrir el modal -->
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filtersModal">
                     Filtros y Ordenamiento
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="filtersModal" tabindex="-1" aria-labelledby="filtersModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal fade" id="filtersModal" tabindex="-1" role="dialog"
+                    aria-labelledby="filtersModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="filtersModalLabel">Filtros y Ordenamiento</h5>
@@ -80,57 +35,127 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="sort">Ordenar por:</label>
-                                    <select name="sort" id="sort" class="form-control">
-                                        @foreach ($response->available_sorts as $sort)
-                                            <option value="{{ $sort->id }}">{{ $sort->name }}</option>
+
+
+                                <!-- Ordenamientos -->
+                                <h6>{{ __('messages.Sort by') }}</h6>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text"
+                                            for="orderSelect">{{ __('messages.Options') }}</label>
+                                    </div>
+                                    <select class="custom-select" id="orderSelect" name="order">
+                                        @foreach ($response->available_orders as $order)
+                                            @if (is_string($order->id))
+                                                <option value="{{ $order->id }}"
+                                                    {{ $order->id == $response->orders[0]->id ? 'selected' : '' }}>
+                                                    {{ __('messages.sort_options.' . $order->id) }}
+                                                </option>
+                                            @elseif(is_object($order->id) && isset($order->id->id))
+                                                <option value="{{ $order->id->id }}"
+                                                    {{ $order->id->id == $response->orders[0]->id ? 'selected' : '' }}>
+                                                    {{ __('messages.sort_options.' . $order->id->id) }}
+                                                </option>
+                                            @else
+                                                <option disabled>Invalid option for {{ $order->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="filters">Filtros:</label>
-                                    @foreach ($response->available_filters as $filter)
-                                        <div class="form-group">
-                                            <label>{{ $filter->name }}:</label>
-                                            @foreach ($filter->values as $value)
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        name="filters[{{ $filter->id }}][]"
-                                                        value="{{ $value->id }}"
-                                                        id="filter_{{ $filter->id }}_{{ $value->id }}">
-                                                    <label class="form-check-label"
-                                                        for="filter_{{ $filter->id }}_{{ $value->id }}">
-                                                        {{ $value->name }} ({{ $value->results }})
-                                                    </label>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
-                                </div>
+
+
+                                <!-- Filtros -->
+                                <h6>{{ __('messages.available_filters') }}</h6>
+                                @foreach ($response->available_filters as $filter)
+                                    <div class="filter-group">
+                                        <h6>{{ __('messages.filters.' . $filter->id) }}</h6>
+                                        <!-- Translate filter names -->
+                                        <ul>
+                                            @if (property_exists($filter, 'values'))
+                                                @foreach ($filter->values as $value)
+                                                    @if (property_exists($value, 'id') && property_exists($value, 'results'))
+                                                        <!-- Checkbox for each filter value -->
+                                                        <li>
+                                                            <label>
+                                                                <input type="checkbox"
+                                                                    name="filters[{{ $filter->id }}][]"
+                                                                    value="{{ $value->id }}">
+                                                                {{ __('messages.filter_values.' . $value->id) }}
+                                                                ({{ $value->results }})
+                                                            </label>
+                                                        </li>
+                                                    @else
+                                                        <li>{{ __('messages.value_info_unavailable') }}</li>
+                                                    @endif
+                                                @endforeach
+                                        </ul>
+                                    @else
+                                        <p>{{ __('messages.no_values_available') }}</p>
+                                @endif
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Aplicar</button>
-                            </div>
+                            @endforeach
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <form method="GET" action="{{ route('items.index') }}">
+                                <button type="submit" class="btn btn-light">Limpiar Filtros</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-secondary">Aplicar Filtros</button>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
 
-        <br>
-        <br>
 
-        @foreach ($response->results as $item)
-            <div class="card" style="width: 18rem;">
-                <h5 class="card-title">{{ $item->id }}</h5>
-                <p class="card-text">{{ $item->title }}</p>
-            </div>
-        @endforeach
+        </form>
+
+    </div>
+
+    <br>
+    <div class="d-flex mx-auto" style="gap: 3rem;">
+
+        <p>{{ __('messages.Total') }}: {{ $response->paging->total ?? __('messages.no_results') }}</p>
+        <p>|</p>
+
+        <!-- Display the applied sort option -->
+        @if (!empty($response->orders))
+            @foreach ($response->orders as $order)
+                <p>{{ __('messages.sort_options.' . $order->id) }}</p>
+            @endforeach
+        @else
+            <p>{{ __('messages.no_sort_applied') }}</p>
+        @endif
+
+        <p>|</p>
+
+        <!-- Display the applied filters and their values -->
+        @if (!empty($response->filters))
+            @foreach ($response->filters as $filter)
+                <p>{{ __('messages.filters.' . $filter->id) }}:
+                    @foreach ($filter->values as $value)
+                        {{ __('messages.filter_values.' . $value->id) }}
+                    @endforeach
+                </p>
+            @endforeach
+        @else
+            <p>{{ __('messages.no_filters_applied') }}</p>
+        @endif
+    </div>
+    <br>
+
+    <br>
+
+
+    @foreach ($response->results as $item)
+        <p>{{ $item }}</p>
+    @endforeach
     </div>
 
 </x-navbar>
+
 
 <script>
     $('#filtersModal').on('shown.bs.modal', function() {

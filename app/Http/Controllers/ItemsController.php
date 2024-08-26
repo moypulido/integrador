@@ -3,47 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Interfaces\MELI\MELISitesRepositoryInterface;
+use App\Interfaces\MELI\MELIUserRepositoryInterface;
 
 class ItemsController extends Controller
 {
-    protected $meliSitesRepository;
+    protected $meliuserRepository;
 
-    public function __construct(MELISitesRepositoryInterface $meliSitesRepository)
+    public function __construct(MELIUserRepositoryInterface $meliuserRepository)
     {
-        $this->meliSitesRepository = $meliSitesRepository;
+        $this->meliuserRepository = $meliuserRepository;
     }
 
     public function index(Request $request)
     {
-        $sort = $request->input('sort');
+        $orders = $request->input('order');
         $filters = $request->input('filters', []);
+        $search = $request->input('search');
 
-        $response = $this->meliSitesRepository->getItemsbyUser();
+        $response = $this->meliuserRepository->getItems($orders, $filters);
 
-        $response = $this->handleFiltersAndSorts($response);
-
-        dd($response);
+        // dd($response);
 
         return view('items.index', compact('response'));
-    }
-
-    private function handleFiltersAndSorts($response)
-    {
-        if (is_array($response->sort)) {
-            $response->sort = (object) $response->sort;
-        }
-
-        if (is_array($response->filters)) {
-            $response->filters = array_map(function ($filter) {
-                return (object) $filter;
-            }, $response->filters);
-        }
-
-        $response->available_sorts = array_merge([$response->sort], $response->available_sorts);
-        $response->available_filters = array_merge($response->filters, $response->available_filters);
-
-        return $response;
     }
 
     public function create()
