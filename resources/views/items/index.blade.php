@@ -149,9 +149,10 @@
     <br>
 
 
-    @foreach ($response->results as $item)
-        <x-item :item="$item" />
+    @foreach ($response->results as $item_id)
+        <x-item :item_id="$item_id" />
     @endforeach
+
     </div>
 
 </x-navbar>
