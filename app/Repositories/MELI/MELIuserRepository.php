@@ -44,7 +44,7 @@ class MELIuserRepository implements MELIUserRepositoryInterface
         }
     }
 
-    public function getItems($orders = null, $filters = [], $limit = 10, $offset = 0)
+    public function getItems($orders = null, $filters = [], $limit = 5, $offset = 0)
     {
         $user = $this->userRepository->getAuthenticatedUser();
 

@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Interfaces\MELI\MELIItemsRepositoryInterface;
 use App\Interfaces\MELI\MELIUserRepositoryInterface;
+use Illuminate\Http\Request;
 
 class ItemsController extends Controller
 {
     protected $meliuserRepository;
+    protected $meliItemsRepository;
 
-    public function __construct(MELIUserRepositoryInterface $meliuserRepository)
-    {
+    public function __construct(
+        MELIUserRepositoryInterface $meliuserRepository,
+        MELIItemsRepositoryInterface $meliItemsRepository
+    ) {
         $this->meliuserRepository = $meliuserRepository;
+        $this->meliItemsRepository = $meliItemsRepository;
     }
 
     public function index(Request $request)
@@ -19,6 +24,10 @@ class ItemsController extends Controller
         $orders = $request->input('order');
         $filters = $request->input('filters', []);
         $search = $request->input('search');
+
+        if ($search) {
+            $this->show($search);
+        }
 
         $response = $this->meliuserRepository->getItems($orders, $filters);
 
@@ -39,7 +48,13 @@ class ItemsController extends Controller
 
     public function show($id)
     {
-        // Código para mostrar un ítem específico
+        $response = $this->meliItemsRepository->getItem($id);
+
+        if (empty($response)) {
+            return redirect()->route('items.index')->with('error', 'Item not found');
+        }
+
+        return view('items.show', compact('response'));
     }
 
     public function edit($id)

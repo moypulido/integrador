@@ -34,10 +34,18 @@ class MELIItemsRepository implements MELIItemsRepositoryInterface
         try {
             $request = new Request('GET', $url, $headers);
             $response = $this->client->sendAsync($request)->wait();
+
+            if ($response->getStatusCode() != 200) {
+                return null;
+            }
+
             return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
+            if ($e->hasResponse() && $e->getResponse()->getStatusCode() == 404) {
+                return null;
+            }
             Log::error($e->getMessage());
-            return $e->getResponse()->getBody()->getContents();
+            return null;
         }
     }
 }

@@ -108,8 +108,6 @@
                     </div>
                 </div>
         </div>
-
-
         </form>
 
     </div>
@@ -117,43 +115,46 @@
     <br>
     <div class="d-flex mx-auto" style="gap: 3rem;">
 
-        <p>{{ __('messages.Total') }}: {{ $response->paging->total ?? __('messages.no_results') }}</p>
-        <p>|</p>
+        <p class="small">{{ __('messages.Total') }}: {{ $response->paging->total ?? __('messages.no_results') }}</p>
+        <p class="small">|</p>
 
         <!-- Display the applied sort option -->
         @if (!empty($response->orders))
             @foreach ($response->orders as $order)
-                <p>{{ __('messages.sort_options.' . $order->id) }}</p>
+                <p class="small">{{ __('messages.sort_options.' . $order->id) }}</p>
             @endforeach
         @else
-            <p>{{ __('messages.no_sort_applied') }}</p>
+            <p class="small">{{ __('messages.no_sort_applied') }}</p>
         @endif
 
-        <p>|</p>
+        <p class="small">|</p>
 
         <!-- Display the applied filters and their values -->
         @if (!empty($response->filters))
             @foreach ($response->filters as $filter)
-                <p>{{ __('messages.filters.' . $filter->id) }}:
+                <p class="small">{{ __('messages.filters.' . $filter->id) }}:
                     @foreach ($filter->values as $value)
                         {{ __('messages.filter_values.' . $value->id) }}
                     @endforeach
                 </p>
             @endforeach
         @else
-            <p>{{ __('messages.no_filters_applied') }}</p>
+            <p class="small">{{ __('messages.no_filters_applied') }}</p>
         @endif
+        <br>
+
+        <br>
+
     </div>
-    <br>
 
     <br>
-
+    <br>
 
     @foreach ($response->results as $item_id)
-        <x-item :item_id="$item_id" />
+        <x-item-list :item="$item_id" />
     @endforeach
 
-    </div>
+
 
 </x-navbar>
 

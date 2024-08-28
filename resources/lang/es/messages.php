@@ -55,6 +55,17 @@ return [
     'no_values_available' => 'No hay valores disponibles para este filtro.',
     'no_sort_applied' => 'No se aplicó ningún orden.',
     'no_filters_applied' => 'No se aplicaron filtros.',
+    'catalog' => 'Catálogo',
+    'traditional' => 'Tradicional',
+    'Quality' => 'Calidad',
+    'see_in_mercadolibre' => 'Ver en MercadoLibre',
+    'Sold_Quantity' => 'Cantidad vendida',
+    'Available_Quantity' => 'Cantidad disponible',
+    'type_publication' => 'Tipo de publicación',
+    'sub_status' => 'Subestado',
+    'seler_sku' => 'SKU del vendedor',
+    'shipping_mode' => 'Modo de envío',
+    'shipping_logistic_type' => 'Tipo de envío',
 
     'sort_options' => [
         'DEFAULT' => 'Por defecto',
@@ -150,4 +161,25 @@ return [
         'fulfillment' => 'Full',
     ],
 
+    'listing_type_id' => [
+        'gold_special' => 'Clasica',
+        'gold_pro' => 'Premium',
+    ],
+
+    'Items_status' => [
+        'under_review' => 'En revisión',
+        'active' => 'Activo',
+        'paused' => 'Pausado',
+    ],
+
+    'sub_statuses' => [
+        'out_of_stock' => 'Sin stock',
+    ],
+
+    'shiping_statues' => [
+        'me2' => 'mercado envios',
+        'fulfillment' => 'Full',
+        'not_specified' => 'No especificado',
+        'cross_docking' => 'desde tu bodega',
+    ],
 ];

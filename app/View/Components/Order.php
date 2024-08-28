@@ -2,28 +2,30 @@
 
 namespace App\View\Components;
 
+use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class Item extends Component
+class Order extends Component
 {
-    public $item_id;
+    public $order;
 
     /**
      * Create a new component instance.
      *
      * @param string $item_id
      */
-    public function __construct(string $item_id)
+    public function __construct($order)
     {
-        $this->item_id = $item_id;
+        $order->date_created = formatDate($order->date_created);
+        $this->order = $order;
     }
 
     /**
      * Get the view / contents that represent the component.
      */
-    public function render(): View|string
+    public function render(): View|Closure|string
     {
-        return view('components.item', ['item_id' => $this->item_id]);
+        return view('components.order');
     }
 }
