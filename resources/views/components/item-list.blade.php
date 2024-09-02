@@ -16,7 +16,7 @@
         <!-- Product details -->
         <div class="col-md-10 col-12">
             <div class="d-flex justify-content-between mr-4 mt-4">
-                <h5 class="card-title">{{ $item->title }}</h5>
+                <h5 class="card-title"><a href="{{ route('items.show', $item->id) }}">{{ $item->title }}</a></h5>
                 <p class="small mt-2"><strong>{{ __('messages.Quality') }}:</strong>{{ $item->health }}</p>
                 <a href="{{ $item->permalink }}" target="_blank">
                     {{ __('messages.see_in_mercadolibre') }}

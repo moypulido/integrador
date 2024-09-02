@@ -52,13 +52,13 @@ class ItemsController extends Controller
 
     public function show($id)
     {
-        $response = $this->meliItemsRepository->getItem($id);
+        $item = $this->meliItemsRepository->getItem($id);
 
-        if (empty($response)) {
+        if (empty($item)) {
             return redirect()->route('items.index')->with('error', 'Item not found');
         }
-
-        return view('items.show', compact('response'));
+        // dd($item);
+        return view('items.show', compact('item'));
     }
 
     public function edit($id)
