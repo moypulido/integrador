@@ -41,7 +41,7 @@
                             {{ __('messages.Items_status.' . $item->status) }}</p>
                         <p class="card-text mb-1"><strong>{{ __('messages.sub_status') }}:</strong>
                             @foreach ($item->sub_status as $sub_status)
-                                {{ __('messages.sub_statuses.' . $sub_status) }}
+                                {{ __('messages.sub_statuses.' . $sub_status) }},
                             @endforeach
                         </p>
                     </div>

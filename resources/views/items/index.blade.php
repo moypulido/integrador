@@ -73,19 +73,21 @@
                                         <ul>
                                             @if (property_exists($filter, 'values'))
                                                 @foreach ($filter->values as $value)
-                                                    @if (property_exists($value, 'id') && property_exists($value, 'results'))
-                                                        <!-- Checkbox for each filter value -->
-                                                        <li>
-                                                            <label>
-                                                                <input type="checkbox"
-                                                                    name="filters[{{ $filter->id }}][]"
-                                                                    value="{{ $value->id }}">
-                                                                {{ __('messages.filter_values.' . $value->id) }}
-                                                                ({{ $value->results }})
-                                                            </label>
-                                                        </li>
-                                                    @else
-                                                        <li>{{ __('messages.value_info_unavailable') }}</li>
+                                                    @if ($value->results > 0)
+                                                        @if (property_exists($value, 'id') && property_exists($value, 'results'))
+                                                            <!-- Checkbox for each filter value -->
+                                                            <li>
+                                                                <label>
+                                                                    <input type="checkbox"
+                                                                        name="filters[{{ $filter->id }}][]"
+                                                                        value="{{ $value->id }}">
+                                                                    {{ __('messages.filter_values.' . $value->id) }}
+                                                                    ({{ $value->results }})
+                                                                </label>
+                                                            </li>
+                                                        @else
+                                                            <li>{{ __('messages.value_info_unavailable') }}</li>
+                                                        @endif
                                                     @endif
                                                 @endforeach
                                         </ul>
@@ -154,6 +156,30 @@
         <x-item-list :item="$item_id" />
     @endforeach
 
+    <div class="container mt-5">
+        <a style="margin-bottom: 10px; display: inline-block;">
+            <span class="small">{{ __('messages.Page') }} {{ $page }}</span>
+        </a>
+        <ul class="pagination">
+            @php
+                $transformedFilters = transformFilters($response->filters ?? []);
+            @endphp
+
+            @if ($page > 1)
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ route('items.index', ['page' => $page - 1, 'orders' => $response->orders ?? '', 'filters' => $transformedFilters]) }}">{{ __('messages.Previous') }}</a>
+                </li>
+            @endif
+
+            @if ($page < ceil($response->paging->total / $limit))
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ route('items.index', ['page' => $page + 1, 'orders' => $response->orders ?? '', 'filters' => $transformedFilters]) }}">{{ __('messages.Next') }}</a>
+                </li>
+            @endif
+        </ul>
+    </div>
 
 
 </x-navbar>

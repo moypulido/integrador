@@ -32,3 +32,18 @@ function formatDates($object, $timezone = 'Etc/GMT+6', $format = 'd M Y H:i')
 
     return $object;
 }
+
+if (!function_exists('transformFilters')) {
+    function transformFilters($filters)
+    {
+        $transformedFilters = [];
+        if (!empty($filters)) {
+            foreach ($filters as $filter) {
+                $transformedFilters[$filter->id] = array_map(function ($value) {
+                    return $value->id;
+                }, $filter->values);
+            }
+        }
+        return $transformedFilters;
+    }
+}

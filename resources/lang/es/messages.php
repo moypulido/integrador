@@ -117,9 +117,9 @@ return [
         'buy_it_now' => 'Compra ahora',
         'classified' => 'Clasificados',
         'auction' => 'Subasta',
-        'gold_pro' => 'Profesional Oro',
+        'gold_pro' => 'Premium',
         'free' => 'Gratis',
-        'gold_special' => 'Oro Especial',
+        'gold_special' => 'Clásica',
         'gold_premium' => 'Oro Premium',
         'gold' => 'Oro',
         'silver' => 'Plata',
@@ -159,6 +159,7 @@ return [
         'with_shipping_self_service' => 'Artículos con logística de auto-servicio',
         'xd_drop_off' => 'Desde tu bodega',
         'fulfillment' => 'Full',
+        'cross_docking' => 'desde tu bodega',
     ],
 
     'listing_type_id' => [
@@ -170,10 +171,14 @@ return [
         'under_review' => 'En revisión',
         'active' => 'Activo',
         'paused' => 'Pausado',
+        'closed' => 'Cerrado',
     ],
 
     'sub_statuses' => [
         'out_of_stock' => 'Sin stock',
+        'waiting_for_patch' => 'Esperando parche',
+        'picture_download_pending' => 'imagen pendiente',
+        'pending_documentation' => 'Documentación pendiente',
     ],
 
     'shiping_statues' => [
@@ -181,5 +186,6 @@ return [
         'fulfillment' => 'Full',
         'not_specified' => 'No especificado',
         'cross_docking' => 'desde tu bodega',
+        'xd_drop_off' => 'Desde tu bodega',
     ],
 ];

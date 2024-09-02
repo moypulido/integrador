@@ -23,17 +23,21 @@ class ItemsController extends Controller
     {
         $orders = $request->input('order');
         $filters = $request->input('filters', []);
+        $limit = $request->input('limit', 5);
         $search = $request->input('search');
+        $page = $request->input('page', 1);
+        $offset = ($page - 1) * $limit;
+
+        // dd(request()->all());
 
         if ($search) {
-            $this->show($search);
+            $response = $this->meliuserRepository->getItems($sort = null, $filters = [],  $limit = 1, $offset = 0);
+            $response->results = collect($search);
+        } else {
+            $response = $this->meliuserRepository->getItems($sort = $orders, $filters,  $limit = 5, $offset);
         }
 
-        $response = $this->meliuserRepository->getItems($orders, $filters);
-
-        // dd($response);
-
-        return view('items.index', compact('response'));
+        return view('items.index', compact('response', 'page', 'limit'));
     }
 
     public function create()
